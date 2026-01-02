@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 const products = [
   {
     key: "bottle" as const,
-    image: "/model_tavoangy.png",
+    image: "/tavoangy2.png",
   },
   {
     key: "minerals" as const,

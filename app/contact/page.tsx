@@ -21,23 +21,23 @@ export default function ContactPage() {
     setMessage(null)
 
     const formData = new FormData(e.currentTarget)
-    const data = {
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-    }
-
     try {
-      // TODO: Integrate with Brevo API
-      // For now, simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const response = await fetch("https://formspree.io/f/xbdlodqo", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
 
-      console.log("[v0] Contact form data:", data)
+      if (!response.ok) {
+        throw new Error("Failed to send message")
+      }
+
       setMessage({ type: "success", text: t.contact.success })
       ;(e.target as HTMLFormElement).reset()
     } catch (error) {
-      console.log("[v0] Contact form error:", error)
+      console.error("Contact form error:", error)
       setMessage({ type: "error", text: t.contact.error })
     } finally {
       setIsSubmitting(false)
@@ -65,18 +65,6 @@ export default function ContactPage() {
               <Card className="border-none shadow-lg">
                 <CardContent className="p-6 flex items-start gap-4">
                   <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Location</h3>
-                    <p className="text-muted-foreground">Maneva Ambositra, Madagascar</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-none shadow-lg">
-                <CardContent className="p-6 flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Mail className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -97,7 +85,17 @@ export default function ContactPage() {
                   </div>
                 </CardContent>
               </Card>
-
+              <Card className="border-none shadow-lg">
+                <CardContent className="p-6 flex items-start gap-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Location</h3>
+                    <p className="text-muted-foreground">Magneva Ambositra, Madagascar</p>
+                  </div>
+                </CardContent>
+              </Card>
               <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
                 <img
                   src="/maneva.png?height=400&width=600"
